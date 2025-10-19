@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:redacted/redacted.dart';
 
-/// Skeleton loading widget for movie details screen
 class MovieDetailsSkeleton extends StatelessWidget {
   const MovieDetailsSkeleton({super.key});
 
@@ -16,7 +15,6 @@ class MovieDetailsSkeleton extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Poster skeleton
             Center(
               child: _buildSkeletonBox(
                 width: 270,
@@ -26,7 +24,6 @@ class MovieDetailsSkeleton extends StatelessWidget {
             ),
             const SizedBox(height: 16),
             
-            // Title skeleton
             _buildSkeletonBox(
               width: double.infinity,
               height: 24,
@@ -34,7 +31,6 @@ class MovieDetailsSkeleton extends StatelessWidget {
             ),
             const SizedBox(height: 8),
             
-            // Release date skeleton
             _buildSkeletonBox(
               width: 150,
               height: 16,
@@ -42,7 +38,6 @@ class MovieDetailsSkeleton extends StatelessWidget {
             ),
             const SizedBox(height: 8),
             
-            // Rating skeleton
             Row(
               children: [
                 _buildSkeletonBox(
@@ -60,7 +55,6 @@ class MovieDetailsSkeleton extends StatelessWidget {
             ),
             const SizedBox(height: 16),
             
-            // Tagline skeleton
             _buildSkeletonBox(
               width: 200,
               height: 16,
@@ -68,7 +62,6 @@ class MovieDetailsSkeleton extends StatelessWidget {
             ),
             const SizedBox(height: 16),
             
-            // Overview label skeleton
             _buildSkeletonBox(
               width: 100,
               height: 20,
@@ -76,12 +69,10 @@ class MovieDetailsSkeleton extends StatelessWidget {
             ),
             const SizedBox(height: 8),
             
-            // Overview text skeleton (multiple lines)
             ..._buildMultiLineSkeletons(lineCount: 5),
             
             const SizedBox(height: 16),
             
-            // Genres label skeleton
             _buildSkeletonBox(
               width: 80,
               height: 20,
@@ -89,7 +80,6 @@ class MovieDetailsSkeleton extends StatelessWidget {
             ),
             const SizedBox(height: 8),
             
-            // Genres chips skeleton
             Wrap(
               spacing: 8,
               runSpacing: 8,

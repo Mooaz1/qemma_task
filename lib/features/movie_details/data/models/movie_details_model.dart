@@ -11,7 +11,7 @@ class MovieDetailsModel {
   final List<String> genres;
   final double? voteAverage;
   final String? tagline;
-  final String? image; // ✅ Added computed image URL (nullable)
+  final String? image; 
 
   MovieDetailsModel({
     required this.id,
@@ -24,14 +24,14 @@ class MovieDetailsModel {
     this.genres = const [],
     this.voteAverage,
     this.tagline,
-    this.image, // ✅ Added to constructor
+    this.image,
   });
 
   factory MovieDetailsModel.fromJson(Map<String, dynamic> json) {
     final posterPath = json['poster_path'] as String?;
     final imageUrl = posterPath != null
         ? '${AppEndpoints.imageBaseUrl}$posterPath'
-        : null; // ✅ only build if exists
+        : null;
 
     return MovieDetailsModel(
       id: json['id'],

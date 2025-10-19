@@ -28,7 +28,6 @@ class _HomeScreenState extends State<HomeScreen> {
     _searchController = TextEditingController();
     _cubit = Injector().homeCubit;
 
-    // Initialize data and listeners
     _cubit.fetchMovies();
     _setupScrollListener();
   }
