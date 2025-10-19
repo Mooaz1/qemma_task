@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:qemma_task/core/ui/app_theme/app_theme.dart';
-import 'package:qemma_task/core/ui/shared_widgets/image_widget.dart';
 import 'package:qemma_task/features/home/data/models/movie_model.dart';
-import 'package:qemma_task/features/movie_details/presentation/pages/movie_details_page.dart';
+import 'package:qemma_task/features/home/presentation/widgets/movie_item.dart';
 import 'package:redacted/redacted.dart';
 
 class MoviesGridBody extends StatelessWidget {
@@ -23,7 +22,7 @@ class MoviesGridBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (isLoading && movies.isEmpty) {
+    if (isLoading) {
       return _buildSkeletonGrid();
     }
 
@@ -48,12 +47,8 @@ class MoviesGridBody extends StatelessWidget {
       );
     }
 
-    return _buildMovieGrid(context);
+    return _buildMovieGrid();
   }
-
-  // ---------------------
-  // Skeleton Grid
-  // ---------------------
 
   Widget _buildSkeletonGrid() {
     return GridView.builder(
@@ -83,10 +78,10 @@ class MoviesGridBody extends StatelessWidget {
             flex: 3,
             child: Container(width: double.infinity, color: Colors.grey[300])
                 .redacted(
-                  redact: true,
                   context: context,
-                  configuration:  RedactedConfiguration(
-                    animationDuration: Duration(milliseconds: 800),
+                  redact: true,
+                  configuration: RedactedConfiguration(
+                    animationDuration: const Duration(milliseconds: 800),
                   ),
                 ),
           ),
@@ -104,10 +99,10 @@ class MoviesGridBody extends StatelessWidget {
                       borderRadius: BorderRadius.circular(4),
                     ),
                   ).redacted(
-                    redact: true,
                     context: context,
-                    configuration:  RedactedConfiguration(
-                      animationDuration: Duration(milliseconds: 800),
+                    redact: true,
+                    configuration: RedactedConfiguration(
+                      animationDuration: const Duration(milliseconds: 800),
                     ),
                   ),
                   const SizedBox(height: 8),
@@ -119,10 +114,10 @@ class MoviesGridBody extends StatelessWidget {
                       borderRadius: BorderRadius.circular(4),
                     ),
                   ).redacted(
-                    redact: true,
                     context: context,
-                    configuration:  RedactedConfiguration(
-                      animationDuration: Duration(milliseconds: 800),
+                    redact: true,
+                    configuration: RedactedConfiguration(
+                      animationDuration: const Duration(milliseconds: 800),
                     ),
                   ),
                 ],
@@ -134,11 +129,7 @@ class MoviesGridBody extends StatelessWidget {
     );
   }
 
-  // ---------------------
-  // Movie Grid
-  // ---------------------
-
-  Widget _buildMovieGrid(BuildContext context) {
+  Widget _buildMovieGrid() {
     return RefreshIndicator(
       onRefresh: () async => onRefresh(),
       child: GridView.builder(
@@ -151,78 +142,16 @@ class MoviesGridBody extends StatelessWidget {
           childAspectRatio: 0.65,
         ),
         itemCount: movies.length + (hasReachedEnd ? 0 : 1),
-        itemBuilder: (context, index) =>
-            _buildGridItem(context, movies: movies, index: index),
+        itemBuilder: (context, index) => _buildGridItem(context, index),
       ),
     );
   }
 
-  Widget _buildGridItem(
-    BuildContext context, {
-    required List<MovieModel> movies,
-    required int index,
-  }) {
-    if (index >= movies.length) return _buildSkeletonItem(context: context);
+  Widget _buildGridItem(BuildContext context, int index) {
+    if (index >= movies.length) {
+      return _buildSkeletonItem(context: context);
+    }
 
-    final movie = movies[index];
-   
-
-    return InkWell(
-      onTap: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (_) => MovieDetailsScreen(
-              movieId: movie.id,
-            ),
-          ),
-        );
-      },
-      child: Card(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(12),
-        ),
-        elevation: 3,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            Expanded(
-              child: ClipRRect(
-                borderRadius:
-                    const BorderRadius.vertical(top: Radius.circular(12)),
-                child:ImageWidget(imageUrl: movie.image)
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(6),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    movie.title,
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
-                    style: const TextStyle(fontWeight: FontWeight.bold),
-                  ),
-                  Text(
-                    movie.releaseDate != null
-                        ? movie.releaseDate!.split('-')[0]
-                        : 'Unknown',
-                    style: const TextStyle(fontSize: 12, color: Colors.grey),
-                  ),
-                  Row(
-                    children: [
-                      const Icon(Icons.star, color: Colors.amber, size: 16),
-                      const SizedBox(width: 4),
-                      Text(movie.rating.toStringAsFixed(1)),
-                    ],
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
+    return MovieItem(movie: movies[index]);
   }
 }
